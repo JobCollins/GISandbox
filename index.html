@@ -17,7 +17,7 @@
     </head>
     <body>
         <div class="row">
-            <div id="side-bar" class="col-md-3">
+            <div id="side-bar">
                 <button id="button-locate" class="btn btn-primary col-12">Locate</button>
                 <br>
                 <button id="button-karura" class="btn btn-primary col-12">Zoom to Karura</button>
@@ -34,6 +34,8 @@
             var basicmap;
             var lyrOSM;
             var mrkCurrentLocation;
+            var popKarura;
+            var popExample;
 
             $(document).ready(
                 function(){
@@ -45,6 +47,19 @@
                     // setInterval(function () {
                     //     basicmap.locate();
                     // }, 5000)
+                    // Using the leaflet popup 
+                    popKarura = L.popup({maxWidth:200, keepInView:true});
+                    popKarura.setLatLng([-1.240071, 36.827717]);
+                    popKarura.setContent(
+                        "<h2>Karura</h2><img src='img/karura.jpg', width='300px'>"
+                    );
+
+                    popExample = L.popup()
+                    popExample.setLatLng([-1.24008, 36.82773])
+                    popExample.setContent(
+                        $("#side-bar")[0]
+                    );
+                    popExample.openOn(basicmap)
 
                     basicmap.on('click', function (e) {
                         // console.log(e)
@@ -103,7 +118,8 @@
                     );
                     $("#button-karura").click(
                         function () {
-                            basicmap.setView([-1.240071, 36.827717], 17)
+                            basicmap.setView([-1.240071, 36.827717], 17);
+                            basicmap.openPopup(popKarura);
                         }
                     );
                 });
