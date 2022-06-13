@@ -26,9 +26,25 @@
 
             $(document).ready(
                 function(){
-                    var basicmap = L.map('mapdiv', {center: [19.4, -99.2], zoom:13});
+                    var basicmap = L.map('mapdiv', {center: [19.4, -99.2], zoom:13, zoomControl:false, dragging:false, minZoom:10, maxZoom:14});
                     var lyrOSM = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png');
                     basicmap.addLayer(lyrOSM);
+
+                    basicmap.on('click', function (e) {
+                        // console.log(e)
+                        // alert(e.latlng.toString());
+                        if (e.originalEvent.shiftKey) {
+                            alert(basicmap.getZoom())
+                        }
+                        else{
+                            alert(e.latlng.toString())
+                        }
+                    });
+                    // put a marker on right-click and add some coordinate and current time details on clicking the map
+                    basicmap.on('contextmenu', function (e) {
+                        var dtCurrentTime = new Date();
+                        L.marker(e.latlng).addTo(basicmap).bindPopup(e.latlng.toString() + "<br>" + dtCurrentTime.toString());
+                    });
                 }
             );
             
