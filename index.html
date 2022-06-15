@@ -11,12 +11,16 @@
         <link rel="stylesheet" href="src/plugins/L.Control.Zoomslider.css">
         <link rel="stylesheet" href="src/plugins/L.Control.MousePosition.css">
         <link rel="stylesheet" href="src/plugins/Leaflet.PolylineMeasure.css">
+        <link rel="stylesheet" href="src/plugins/L.Control.Sidebar.css">
+        <link rel="stylesheet" href="src/plugins/easy-button.css">
         <!-- leaflet js must be loaded first -->
         <script src="src/leaflet-src.js"></script>
         <script src="src/plugins/L.Control.Pan.js"></script>
         <script src="src/plugins/L.Control.Zoomslider.js"></script>
         <script src="src/plugins/L.Control.MousePosition.js"></script>
         <script src="src/plugins/Leaflet.PolylineMeasure.js"></script>
+        <script src="src/plugins/L.Control.Sidebar.js"></script>
+        <script src="src/plugins/easy-button.js"></script>
         <script src="src/jquery-3.6.0.min.js"></script>
         <style>
             #mapdiv {
@@ -34,7 +38,7 @@
                 <h4>Map Center : <span id="map-center"></span></h4>
                 <h4>Mouse Location: <span id="mouse-location"></span></h4>
             </div>
-            <div id="mapdiv" class="col-md-9"></div>
+            <div id="mapdiv" class="col-md-12"></div>
         </div>
         
 
@@ -51,6 +55,8 @@
             var ctrlZoomSlider;
             var ctrlMousePosition;
             var ctrlMeasure;
+            var ctrlEasyButton;
+            var ctrlSidebar;
 
             $(document).ready(
                 function(){
@@ -62,6 +68,14 @@
                     ctrlZoomSlider = L.control.zoomslider({position:'topright'}).addTo(basicmap);
 
                     ctrlMeasure = L.control.polylineMeasure().addTo(basicmap)
+
+                    ctrlSidebar = L.control.sidebar('side-bar').addTo(basicmap)
+
+                    ctrlEasyButton = L.easyButton('glyphicon-transfer', function () {
+                        ctrlSidebar.toggle()
+                    }).addTo(basicmap)
+
+                    
 
                     // ctrlZoom = L.control.zoom({zoomInText:'In', zoomOutText:'Out', position:'bottomright'});
                     // ctrlZoom.addTo(basicmap)
