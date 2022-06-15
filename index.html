@@ -12,7 +12,8 @@
         <link rel="stylesheet" href="src/plugins/L.Control.MousePosition.css">
         <link rel="stylesheet" href="src/plugins/Leaflet.PolylineMeasure.css">
         <link rel="stylesheet" href="src/plugins/L.Control.Sidebar.css">
-        <link rel="stylesheet" href="src/plugins/easy-button.css">
+        <link rel="stylesheet" href="src/plugins/L.Control.Sidebar.css">
+        <link rel="stylesheet" href="src/plugins/leaflet-opencage-geosearch.css">
         <!-- leaflet js must be loaded first -->
         <script src="src/leaflet-src.js"></script>
         <script src="src/plugins/L.Control.Pan.js"></script>
@@ -20,6 +21,7 @@
         <script src="src/plugins/L.Control.MousePosition.js"></script>
         <script src="src/plugins/Leaflet.PolylineMeasure.js"></script>
         <script src="src/plugins/L.Control.Sidebar.js"></script>
+        <script src="src/plugins/easy-button.js"></script>
         <script src="src/plugins/easy-button.js"></script>
         <script src="src/jquery-3.6.0.min.js"></script>
         <style>
@@ -57,6 +59,7 @@
             var ctrlMeasure;
             var ctrlEasyButton;
             var ctrlSidebar;
+            var ctrlSearch;
 
             $(document).ready(
                 function(){
@@ -75,7 +78,9 @@
                         ctrlSidebar.toggle()
                     }).addTo(basicmap)
 
-                    
+                    ctrlSearch = L.Control.openCageGeosearch({
+                        key:'2e68087122874c8ebb00660e48d9bde9', limnit:10
+                    }).addTo(basicmap);
 
                     // ctrlZoom = L.control.zoom({zoomInText:'In', zoomOutText:'Out', position:'bottomright'});
                     // ctrlZoom.addTo(basicmap)
