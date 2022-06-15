@@ -7,7 +7,12 @@
         <title>Web Map</title>
         <link rel="stylesheet" href="src/leaflet.css">
         <link rel="stylesheet" href="src/css/bootstrap.css">
+        <link rel="stylesheet" href="src/plugins/L.Control.Pan.css">
+        <link rel="stylesheet" href="src/plugins/L.Control.Zoomslider.css">
+        <!-- leaflet js must be loaded first -->
         <script src="src/leaflet-src.js"></script>
+        <script src="src/plugins/L.Control.Pan.js"></script>
+        <script src="src/plugins/L.Control.Zoomslider.js"></script>
         <script src="src/jquery-3.6.0.min.js"></script>
         <style>
             #mapdiv {
@@ -35,9 +40,11 @@
             var lyrOSM;
             var mrkCurrentLocation;
             var popKarura;
-            var ctrlZoom; //new zoom control
+            // var ctrlZoom; //new zoom control
             var ctrlAttr; //new attribtuiton control
             var ctrlScale; // new scale bar
+            var ctrlPan;
+            var ctrlZoomSlider;
 
             $(document).ready(
                 function(){
@@ -45,8 +52,12 @@
                     var lyrOSM = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png');
                     basicmap.addLayer(lyrOSM);
 
-                    ctrlZoom = L.control.zoom({zoomInText:'In', zoomOutText:'Out', position:'bottomright'});
-                    ctrlZoom.addTo(basicmap)
+                    ctrlPan = L.control.pan().addTo(basicmap);
+                    ctrlZoomSlider = L.control.zoomslider({position:'topright'}).addTo(basicmap);
+                
+
+                    // ctrlZoom = L.control.zoom({zoomInText:'In', zoomOutText:'Out', position:'bottomright'});
+                    // ctrlZoom.addTo(basicmap)
 
                     ctrlAttr = L.control.attribution({position:'bottomleft'}).addTo(basicmap);
                     ctrlAttr.addAttribution('OSM');
