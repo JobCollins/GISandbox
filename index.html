@@ -17,7 +17,7 @@
     </head>
     <body>
         <div class="row">
-            <div id="side-bar">
+            <div id="side-bar" class="col-md-3">
                 <button id="button-locate" class="btn btn-primary col-12">Locate</button>
                 <br>
                 <button id="button-karura" class="btn btn-primary col-12">Zoom to Karura</button>
@@ -35,13 +35,24 @@
             var lyrOSM;
             var mrkCurrentLocation;
             var popKarura;
-            var popExample;
+            var ctrlZoom; //new zoom control
+            var ctrlAttr; //new attribtuiton control
+            var ctrlScale; // new scale bar
 
             $(document).ready(
                 function(){
-                    var basicmap = L.map('mapdiv', {center: [19.4, -99.2], zoom:13});
+                    var basicmap = L.map('mapdiv', {center: [19.4, -99.2], zoom:13, zoomControl:false, attributionControl:false});
                     var lyrOSM = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png');
                     basicmap.addLayer(lyrOSM);
+
+                    ctrlZoom = L.control.zoom({zoomInText:'In', zoomOutText:'Out', position:'bottomright'});
+                    ctrlZoom.addTo(basicmap)
+
+                    ctrlAttr = L.control.attribution({position:'bottomleft'}).addTo(basicmap);
+                    ctrlAttr.addAttribution('OSM');
+                    ctrlAttr.addAttribution('&copy;<a href="https://dulojc.io"> dulojcio</a>')
+
+                    ctrlScale = L.control.scale({position:'bottomleft'}).addTo(basicmap)
 
                     // call the locator every 5 seconds
                     // setInterval(function () {
@@ -53,13 +64,6 @@
                     popKarura.setContent(
                         "<h2>Karura</h2><img src='img/karura.jpg', width='300px'>"
                     );
-
-                    popExample = L.popup()
-                    popExample.setLatLng([-1.24008, 36.82773])
-                    popExample.setContent(
-                        $("#side-bar")[0]
-                    );
-                    popExample.openOn(basicmap)
 
                     basicmap.on('click', function (e) {
                         // console.log(e)
