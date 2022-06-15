@@ -9,10 +9,14 @@
         <link rel="stylesheet" href="src/css/bootstrap.css">
         <link rel="stylesheet" href="src/plugins/L.Control.Pan.css">
         <link rel="stylesheet" href="src/plugins/L.Control.Zoomslider.css">
+        <link rel="stylesheet" href="src/plugins/L.Control.MousePosition.css">
+        <link rel="stylesheet" href="src/plugins/Leaflet.PolylineMeasure.css">
         <!-- leaflet js must be loaded first -->
         <script src="src/leaflet-src.js"></script>
         <script src="src/plugins/L.Control.Pan.js"></script>
         <script src="src/plugins/L.Control.Zoomslider.js"></script>
+        <script src="src/plugins/L.Control.MousePosition.js"></script>
+        <script src="src/plugins/Leaflet.PolylineMeasure.js"></script>
         <script src="src/jquery-3.6.0.min.js"></script>
         <style>
             #mapdiv {
@@ -45,6 +49,8 @@
             var ctrlScale; // new scale bar
             var ctrlPan;
             var ctrlZoomSlider;
+            var ctrlMousePosition;
+            var ctrlMeasure;
 
             $(document).ready(
                 function(){
@@ -54,7 +60,8 @@
 
                     ctrlPan = L.control.pan().addTo(basicmap);
                     ctrlZoomSlider = L.control.zoomslider({position:'topright'}).addTo(basicmap);
-                
+
+                    ctrlMeasure = L.control.polylineMeasure().addTo(basicmap)
 
                     // ctrlZoom = L.control.zoom({zoomInText:'In', zoomOutText:'Out', position:'bottomright'});
                     // ctrlZoom.addTo(basicmap)
@@ -64,6 +71,8 @@
                     ctrlAttr.addAttribution('&copy;<a href="https://dulojc.io"> dulojcio</a>')
 
                     ctrlScale = L.control.scale({position:'bottomleft'}).addTo(basicmap)
+
+                    ctrlMousePosition = L.control.mousePosition().addTo(basicmap)
 
                     // call the locator every 5 seconds
                     // setInterval(function () {
@@ -76,16 +85,7 @@
                         "<h2>Karura</h2><img src='img/karura.jpg', width='300px'>"
                     );
 
-                    basicmap.on('click', function (e) {
-                        // console.log(e)
-                        // alert(e.latlng.toString());
-                        if (e.originalEvent.shiftKey) {
-                            alert(basicmap.getZoom())
-                        }
-                        else{
-                            alert(e.latlng.toString())
-                        }
-                    });
+                    
                     // put a marker on right-click and add some coordinate and current time details on clicking the map
                     basicmap.on('contextmenu', function (e) {
                         var dtCurrentTime = new Date();
