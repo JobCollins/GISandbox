@@ -13,17 +13,19 @@
         <link rel="stylesheet" href="src/plugins/Leaflet.PolylineMeasure.css">
         <link rel="stylesheet" href="src/plugins/L.Control.Sidebar.css">
         <link rel="stylesheet" href="src/plugins/L.Control.Sidebar.css">
-        <link rel="stylesheet" href="src/plugins/leaflet-opencage-geosearch.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@opencage/leaflet-opencage-geosearch@0.0.5/leaflet-opencage-geosearch.css"/>
         <!-- leaflet js must be loaded first -->
         <script src="src/leaflet-src.js"></script>
+        <script src="src/jquery-3.6.0.min.js"></script>
         <script src="src/plugins/L.Control.Pan.js"></script>
         <script src="src/plugins/L.Control.Zoomslider.js"></script>
         <script src="src/plugins/L.Control.MousePosition.js"></script>
         <script src="src/plugins/Leaflet.PolylineMeasure.js"></script>
         <script src="src/plugins/L.Control.Sidebar.js"></script>
         <script src="src/plugins/easy-button.js"></script>
-        <script src="src/plugins/easy-button.js"></script>
-        <script src="src/jquery-3.6.0.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@opencage/geosearch-bundle@0.0.2"></script>
+        <script src="src/plugins/leaflet-providers.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@opencage/leaflet-opencage-geosearch@0.0.6"></script>     
         <style>
             #mapdiv {
                 height: 100vh;
@@ -48,6 +50,10 @@
         <script>
             var basicmap;
             var lyrOSM;
+            var lyrWaterColor;
+            var lyrTopo;
+            var lyrImagery;
+            var lyrOutdoors;
             var mrkCurrentLocation;
             var popKarura;
             // var ctrlZoom; //new zoom control
@@ -60,12 +66,31 @@
             var ctrlEasyButton;
             var ctrlSidebar;
             var ctrlSearch;
+            var ctrlLayers;
+            var objBasemaps;
+            var objOverlays;
 
             $(document).ready(
                 function(){
-                    var basicmap = L.map('mapdiv', {center: [19.4, -99.2], zoom:13, zoomControl:false, attributionControl:false});
-                    var lyrOSM = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png');
+                    var basicmap = L.map('mapdiv', {center: [-1.27817, 36.78454], zoom:13, zoomControl:false, attributionControl:false});
+                    var lyrOSM = L.tileLayer.provider('OpenStreetMap.Mapnik');
+                    var lyrWaterColor = L.tileLayer.provider('Stamen.Watercolor');
+                    var lyrTopo = L.tileLayer.provider('OpenTopoMap');
+                    var lyrImagery = L.tileLayer.provider('Esri.WorldImagery');
+                    var lyrOutdoors = L.tileLayer.provider('Thunderforest.Outdoors'); //requires api key to work
                     basicmap.addLayer(lyrOSM);
+
+                    objBasemaps = {
+                        "Open Street Maps": lyrOSM,
+                        "Topo Map": lyrTopo,
+                        "Imagery": lyrImagery,
+                        "Outdoors": lyrOutdoors,
+                        "Watercolor":lyrWaterColor
+                    };
+
+                    objOverlays = {};
+
+                    ctrlLayers = L.control.layers(objBasemaps, objOverlays).addTo(basicmap)
 
                     ctrlPan = L.control.pan().addTo(basicmap);
                     ctrlZoomSlider = L.control.zoomslider({position:'topright'}).addTo(basicmap);
