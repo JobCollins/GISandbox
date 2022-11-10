@@ -55,6 +55,7 @@
             var lyrImagery;
             var lyrOutdoors;
             var mrkCurrentLocation;
+            var mrkKarura;
             var popKarura;
             // var ctrlZoom; //new zoom control
             var ctrlAttr; //new attribtuiton control
@@ -129,6 +130,11 @@
                         "<h2>Karura</h2><img src='img/karura.jpg', width='300px'>"
                     );
 
+                    // marker object
+                    mrkKarura = L.marker( [-1.24007, 36.82772], {draggable:true}).addTo(basicmap);
+                    mrkKarura.bindTooltip("Karura Forest and Park")
+
+
                     
                     // put a marker on right-click and add some coordinate and current time details on clicking the map
                     basicmap.on('contextmenu', function (e) {
@@ -170,6 +176,11 @@
                     basicmap.on('mousemove', function (e) {
                         $("#mouse-location").html(LatLngToArrayString(e.latlng))
                     });
+                    mrkKarura.on('dragend', function () {
+                        mrkKarura.setTooltipContent("Current location: "
+                        +mrkKarura.getLatLng().toString() + "<br>"+ "Distance to Karura Forest: " 
+                        +mrkKarura.getLatLng().distanceTo([-1.24007, 36.82772]).toFixed(0));
+                    })
                     $("#button-locate").click(
                         function () {
                             basicmap.locate()
