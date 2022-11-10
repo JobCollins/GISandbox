@@ -39,6 +39,7 @@
                 <br>
                 <button id="button-karura" class="btn btn-primary col-12">Zoom to Karura</button>
                 <button id="button-kile" class="btn btn-primary col-12">Zoom to Kileleshwa</button>
+                <button id="button-bikeroute" class="btn btn-primary col-12">Zoom to Bike Route</button>
                 <h4>Zoom Level: <span id="zoom-level"></span></h4>
                 <h4>Map Center : <span id="map-center"></span></h4>
                 <h4>Mouse Location: <span id="mouse-location"></span></h4>
@@ -57,6 +58,7 @@
             var lyrOutdoors;
             var mrkCurrentLocation;
             var mrkKileleshwa;
+            var plnBikeRoute;
             var popKarura;
             // var ctrlZoom; //new zoom control
             var ctrlAttr; //new attribtuiton control
@@ -135,6 +137,8 @@
                     mrkKileleshwa = L.marker( [-1.27255, 36.79742], {draggable:true}).addTo(basicmap);
                     mrkKileleshwa.bindTooltip("Karura Forest and Park")
 
+                    plnBikeRoute = L.polyline([ [-1.26448, 36.78240], [-1.26869, 36.79124],  [-1.26011, 36.78781], 
+                    [-1.25822, 36.79304], [-1.25487, 36.79605], [-1.24895, 36.79905], [-1.24749, 36.81802]]).addTo(basicmap);
 
                     
                     // put a marker on right-click and add some coordinate and current time details on clicking the map
@@ -198,6 +202,11 @@
                             basicmap.setView([-1.27255, 36.79742], 17);
                             mrkKileleshwa.setLatLng([-1.27255, 36.79742]);
                             mrkKileleshwa.setTooltipContent("Kileleshwa");
+                        }
+                    );
+                    $("#button-bikeroute").click(
+                        function () {
+                            basicmap.fitBounds(plnBikeRoute.getBounds());
                         }
                     );
                 });
