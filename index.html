@@ -59,6 +59,7 @@
             var mrkCurrentLocation;
             var mrkKileleshwa;
             var plnBikeRoute;
+            var plyParks;
             var popKarura;
             // var ctrlZoom; //new zoom control
             var ctrlAttr; //new attribtuiton control
@@ -92,7 +93,22 @@
                         "Watercolor":lyrWaterColor
                     };
 
-                    objOverlays = {};
+                    // marker object
+                    mrkKileleshwa = L.marker( [-1.27255, 36.79742], {draggable:true}).addTo(basicmap);
+                    mrkKileleshwa.bindTooltip("Kileleshwa")
+
+                    plnBikeRoute = L.polyline([ [-1.26448, 36.78240], [-1.26869, 36.79124],  [-1.26011, 36.78781], 
+                    [-1.25822, 36.79304], [-1.25487, 36.79605], [-1.24895, 36.79905], [-1.24749, 36.81802]]).addTo(basicmap);
+
+                    plyParks = L.polygon([[-1.26968, 36.79167], [-1.26538, 36.801], [-1.27448, 36.809], [-1.28066, 36.79579]]).addTo(basicmap);
+
+                    
+
+                    objOverlays = {
+                        "Kileleshwa":mrkKileleshwa,
+                        "Bike Route to Karura": plnBikeRoute,
+                        "Parks": plyParks
+                    };
 
                     ctrlLayers = L.control.layers(objBasemaps, objOverlays).addTo(basicmap)
 
@@ -132,13 +148,6 @@
                     popKarura.setContent(
                         "<h2>Karura</h2><img src='img/karura.jpg', width='300px'>"
                     );
-
-                    // marker object
-                    mrkKileleshwa = L.marker( [-1.27255, 36.79742], {draggable:true}).addTo(basicmap);
-                    mrkKileleshwa.bindTooltip("Karura Forest and Park")
-
-                    plnBikeRoute = L.polyline([ [-1.26448, 36.78240], [-1.26869, 36.79124],  [-1.26011, 36.78781], 
-                    [-1.25822, 36.79304], [-1.25487, 36.79605], [-1.24895, 36.79905], [-1.24749, 36.81802]]).addTo(basicmap);
 
                     
                     // put a marker on right-click and add some coordinate and current time details on clicking the map
@@ -183,7 +192,7 @@
                     });
                     mrkKileleshwa.on('dragend', function () {
                         mrkKileleshwa.setTooltipContent("Current location: "
-                        +mrkKileleshwa.getLatLng().toString() + "<br>"+ "Distance to Karura Forest: " 
+                        +mrkKileleshwa.getLatLng().toString() + "<br>"+ "Distance to Kileleshwa: " 
                         +mrkKileleshwa.getLatLng().distanceTo([-1.27255, 36.79742]).toFixed(0));
                     })
                     $("#button-locate").click(
