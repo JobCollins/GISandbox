@@ -40,6 +40,7 @@
                 <button id="button-karura" class="btn btn-primary col-12">Zoom to Karura</button>
                 <button id="button-kile" class="btn btn-primary col-12">Zoom to Kileleshwa</button>
                 <button id="button-bikeroute" class="btn btn-primary col-12">Zoom to Bike Route</button>
+                <button id="button-addKile" class="btn btn-primary col-12">Add Kileleshwa to Vector Group</button>
                 <h4>Zoom Level: <span id="zoom-level"></span></h4>
                 <h4>Map Center : <span id="map-center"></span></h4>
                 <h4>Mouse Location: <span id="mouse-location"></span></h4>
@@ -60,6 +61,7 @@
             var mrkKileleshwa;
             var plnBikeRoute;
             var plyParks;
+            var fgp;
             var popKarura;
             // var ctrlZoom; //new zoom control
             var ctrlAttr; //new attribtuiton control
@@ -94,20 +96,20 @@
                     };
 
                     // marker object
-                    mrkKileleshwa = L.marker( [-1.27255, 36.79742], {draggable:true}).addTo(basicmap);
+                    mrkKileleshwa = L.marker( [-1.27255, 36.79742], {draggable:true});
                     mrkKileleshwa.bindTooltip("Kileleshwa")
 
                     plnBikeRoute = L.polyline([ [-1.26448, 36.78240], [-1.26869, 36.79124],  [-1.26011, 36.78781], 
-                    [-1.25822, 36.79304], [-1.25487, 36.79605], [-1.24895, 36.79905], [-1.24749, 36.81802]]).addTo(basicmap);
+                    [-1.25822, 36.79304], [-1.25487, 36.79605], [-1.24895, 36.79905], [-1.24749, 36.81802]]);
 
-                    plyParks = L.polygon([[-1.26968, 36.79167], [-1.26538, 36.801], [-1.27448, 36.809], [-1.28066, 36.79579]]).addTo(basicmap);
+                    plyParks = L.polygon([[-1.26968, 36.79167], [-1.26538, 36.801], [-1.27448, 36.809], [-1.28066, 36.79579]]);
+
+                    fgp = L.featureGroup([plnBikeRoute, plyParks]).addTo(basicmap);
 
                     
 
                     objOverlays = {
-                        "Kileleshwa":mrkKileleshwa,
-                        "Bike Route to Karura": plnBikeRoute,
-                        "Parks": plyParks
+                        "Kileleshwa": fgp
                     };
 
                     ctrlLayers = L.control.layers(objBasemaps, objOverlays).addTo(basicmap)
@@ -216,6 +218,17 @@
                     $("#button-bikeroute").click(
                         function () {
                             basicmap.fitBounds(plnBikeRoute.getBounds());
+                        }
+                    );
+                    $("#button-addKile").click(
+                        function () {
+                            if (fgp.hasLayer(mrkKileleshwa)){
+                                fgp.removeLayer(mrkKileleshwa);
+                                $("#button-addKile").html("Add Kileleshwa to Map vectors");
+                            }else{
+                                fgp.addLayer(mrkKileleshwa);
+                                $("#button-addKile").html("Remove Kileleshwa from Map vectors");
+                            }
                         }
                     );
                 });
