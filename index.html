@@ -38,6 +38,7 @@
                 <button id="button-locate" class="btn btn-primary col-12">Locate</button>
                 <br>
                 <button id="button-karura" class="btn btn-primary col-12">Zoom to Karura</button>
+                <button id="button-kile" class="btn btn-primary col-12">Zoom to Kileleshwa</button>
                 <h4>Zoom Level: <span id="zoom-level"></span></h4>
                 <h4>Map Center : <span id="map-center"></span></h4>
                 <h4>Mouse Location: <span id="mouse-location"></span></h4>
@@ -55,7 +56,7 @@
             var lyrImagery;
             var lyrOutdoors;
             var mrkCurrentLocation;
-            var mrkKarura;
+            var mrkKileleshwa;
             var popKarura;
             // var ctrlZoom; //new zoom control
             var ctrlAttr; //new attribtuiton control
@@ -131,8 +132,8 @@
                     );
 
                     // marker object
-                    mrkKarura = L.marker( [-1.24007, 36.82772], {draggable:true}).addTo(basicmap);
-                    mrkKarura.bindTooltip("Karura Forest and Park")
+                    mrkKileleshwa = L.marker( [-1.27255, 36.79742], {draggable:true}).addTo(basicmap);
+                    mrkKileleshwa.bindTooltip("Karura Forest and Park")
 
 
                     
@@ -176,10 +177,10 @@
                     basicmap.on('mousemove', function (e) {
                         $("#mouse-location").html(LatLngToArrayString(e.latlng))
                     });
-                    mrkKarura.on('dragend', function () {
-                        mrkKarura.setTooltipContent("Current location: "
-                        +mrkKarura.getLatLng().toString() + "<br>"+ "Distance to Karura Forest: " 
-                        +mrkKarura.getLatLng().distanceTo([-1.24007, 36.82772]).toFixed(0));
+                    mrkKileleshwa.on('dragend', function () {
+                        mrkKileleshwa.setTooltipContent("Current location: "
+                        +mrkKileleshwa.getLatLng().toString() + "<br>"+ "Distance to Karura Forest: " 
+                        +mrkKileleshwa.getLatLng().distanceTo([-1.27255, 36.79742]).toFixed(0));
                     })
                     $("#button-locate").click(
                         function () {
@@ -190,6 +191,13 @@
                         function () {
                             basicmap.setView([-1.240071, 36.827717], 17);
                             basicmap.openPopup(popKarura);
+                        }
+                    );
+                    $("#button-kile").click(
+                        function () {
+                            basicmap.setView([-1.27255, 36.79742], 17);
+                            mrkKileleshwa.setLatLng([-1.27255, 36.79742]);
+                            mrkKileleshwa.setTooltipContent("Kileleshwa");
                         }
                     );
                 });
